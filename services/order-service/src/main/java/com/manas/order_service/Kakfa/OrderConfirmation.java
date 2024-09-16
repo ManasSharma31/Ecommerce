@@ -10,7 +10,7 @@ import com.manas.order_service.Product.ProductPurchaseReponse;
 public record OrderConfirmation(
     String reference,
     BigDecimal totalPrice,
-    List<ProductPurchaseReponse>prouducts,
+    List<ProductPurchaseReponse>products,
     PayMethodMode payMethodMode,
     CustomerResponse customer
 ) {

@@ -17,7 +17,7 @@ public class OrderProducer {
     private final KafkaTemplate<String,OrderConfirmation> kafkaTemplate;
 
     public void sendMessage(OrderConfirmation orderConfirmation) {
-        log.info("Sending message: {}",orderConfirmation.toString());
+        log.info("Sending message: <{}>",orderConfirmation);
         Message<OrderConfirmation> message = MessageBuilder
         .withPayload(orderConfirmation)
         .setHeader(KafkaHeaders.TOPIC, "order-topic") //this should be exactly the same name as that we created the kafka topic

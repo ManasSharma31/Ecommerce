@@ -13,6 +13,8 @@ import com.manas.order_service.Kakfa.OrderProducer;
 import com.manas.order_service.Model.OrderLineRequest;
 import com.manas.order_service.Model.OrderRequest;
 import com.manas.order_service.Model.OrderResponse;
+import com.manas.order_service.Payment.PaymentClient;
+import com.manas.order_service.Payment.PaymentRequest;
 import com.manas.order_service.Product.ProductClient;
 import com.manas.order_service.Product.ProductPurchaseReponse;
 import com.manas.order_service.Product.ProductPurchaseRequest;
@@ -31,6 +33,7 @@ public class OrderService {
     private final ModelMapper mapper;
     private final OrderLineService orderLineService;
     private final OrderProducer orderProducer;
+    private final PaymentClient paymentClient;
 
     public Integer createOrder(OrderRequest request) {
 
@@ -56,6 +59,8 @@ public class OrderService {
 
         //process payment
 
+        paymentClient.requestOrderPayment(new PaymentRequest(request.totalPrice(), 
+             request.payMethodMode(),order.getId(),order.getReference(),customer.get()));
         //send messgae to the notification ms
 
         orderProducer.sendMessage(new OrderConfirmation(request.reference(), request.totalPrice(), productResponse, request.payMethodMode(), customer.get()));
