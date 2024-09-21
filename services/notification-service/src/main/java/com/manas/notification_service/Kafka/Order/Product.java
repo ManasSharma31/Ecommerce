@@ -1,4 +1,4 @@
-package com.manas.notification_service.Model;
+package com.manas.notification_service.Kafka.Order;
 
 import java.math.*;
 

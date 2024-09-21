@@ -3,8 +3,8 @@ package com.manas.notification_service.Entity;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.manas.notification_service.Kafka.OrderConfirmation;
-import com.manas.notification_service.Kafka.PaymentConfirmation;
+import com.manas.notification_service.Kafka.Order.OrderConfirmation;
+import com.manas.notification_service.Kafka.Payment.PaymentConfirmation;
 import com.manas.notification_service.Model.NotificationType;
 
 import lombok.Builder;
