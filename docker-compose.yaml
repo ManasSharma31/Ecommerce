@@ -1,3 +1,6 @@
+networks:
+  microservices-net:
+    driver: bridge
 services:
   postgres:
     container_name: ms_pq_sql
@@ -64,6 +67,8 @@ services:
     ports:
       - "1080:1080"
       - "1025:1025"
+    networks:
+      - microservices-net
 
 
   zookeeper:
@@ -97,11 +102,6 @@ services:
     depends_on:
       - zookeeper
     
-
-networks:
-  microservices-net:
-    driver: bridge
-
 volumes:
   postgres:
   pgadmin:

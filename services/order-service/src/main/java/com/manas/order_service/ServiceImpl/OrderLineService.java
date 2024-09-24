@@ -21,7 +21,7 @@ public class OrderLineService {
        return orderLineRepository.save(mapper.toOrderLine(orderLineRequest)).getId();
     }
 
-    public List<OrderLineResponse> getOrderLine(String orderId) {
+    public List<OrderLineResponse> getOrderLine(Integer orderId) {
         return orderLineRepository.findAllByOrderId(orderId).stream().map(mapper::toOrderLineResponse).toList();
     }
 

@@ -1,30 +1,28 @@
 package com.manas.customerservice.ServiceImpl;
 
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.manas.customerservice.Entity.Customer;
 import com.manas.customerservice.Exception.CustomerNotFoundException;
+import com.manas.customerservice.Mapper.CustomerMapper;
 import com.manas.customerservice.Model.CustomerRequest;
 import com.manas.customerservice.Model.CustomerResponse;
 import com.manas.customerservice.Repository.CustomerRepository;
 import java.util.*;
 
 import io.micrometer.common.util.StringUtils;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class CustomerServiceImpl implements CustomerService{
 
-    @Autowired
-    private CustomerRepository customerRepository;
-    @Autowired
-    private ModelMapper mapper;
+    private final CustomerRepository customerRepository;
+    private final CustomerMapper mapper;
     @Override
     public String createCustomer(CustomerRequest customerRequest) {
-        Customer savedCustomer=customerRepository.save(mapper.map(customerRequest,Customer.class));
-        return savedCustomer.getId();
-       
+        Customer customer = mapper.toCustomer(customerRequest);
+        return customerRepository.save(customer).getId();
     }
     @Override
     public void updateCustomer(CustomerRequest customerRequest) {
@@ -46,10 +44,9 @@ public class CustomerServiceImpl implements CustomerService{
     }
     @Override
     public List<CustomerResponse> getCustomers() {
-        List<CustomerResponse> customersResponseList = new ArrayList<CustomerResponse>();
+        List<CustomerResponse> customersResponseList = new ArrayList<>();
         customerRepository.findAll().forEach(customer->{
-            CustomerResponse customerResponse=new CustomerResponse();
-            customerResponse=mapper.map(customer,CustomerResponse.class);
+            CustomerResponse customerResponse=mapper.toCustomerResponse(customer);
             customersResponseList.add(customerResponse);
         });
         return customersResponseList;
@@ -57,7 +54,7 @@ public class CustomerServiceImpl implements CustomerService{
     @Override
     public CustomerResponse getCustomerById(String id) {
          return customerRepository.findById(id)
-        .map(customer -> mapper.map(customer, CustomerResponse.class))
+        .map(customer -> mapper.toCustomerResponse(customer))
         .orElseThrow(() -> new CustomerNotFoundException("Customer not found with the requested "+id));
     }
     @Override

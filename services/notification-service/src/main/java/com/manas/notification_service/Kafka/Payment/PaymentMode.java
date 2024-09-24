@@ -1,6 +1,6 @@
 package com.manas.notification_service.Kafka.Payment;
 
-public enum PayMethodMode {
+public enum PaymentMode {
     PAYPAL,
     CREDIT_CARD,
     VISA,

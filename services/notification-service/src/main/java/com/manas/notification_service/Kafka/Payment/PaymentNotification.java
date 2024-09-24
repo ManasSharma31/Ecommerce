@@ -3,11 +3,11 @@ package com.manas.notification_service.Kafka.Payment;
 import java.math.*;
 
 //this record should contains the same variables as that used in the  payment notification request otherwise there will be issues while desializing the object
-public record PaymentConfirmation(
+public record PaymentNotification(
 
 String orderRefString, 
 BigDecimal amount,
-PayMethodMode paymentMode,
+PaymentMode paymentMode,
 String customerFirstName,
 String customerLastName,
 String customerEmail

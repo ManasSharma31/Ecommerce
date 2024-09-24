@@ -13,14 +13,14 @@ import lombok.RequiredArgsConstructor;
 import java.util.*;
 
 @RestController
-@RequestMapping("/api/v1/order-line")
+@RequestMapping("/api/v1/order-lines")
 @RequiredArgsConstructor
 public class OrderLineController {
     
     private final OrderLineService orderLineService;
 
     @GetMapping("/order/{orderId}")
-    public ResponseEntity<List<OrderLineResponse>> getOrderLine(@PathVariable String orderId){
+    public ResponseEntity<List<OrderLineResponse>> getOrderLine(@PathVariable Integer orderId){
         return ResponseEntity.ok(orderLineService.getOrderLine(orderId));
     }
 }

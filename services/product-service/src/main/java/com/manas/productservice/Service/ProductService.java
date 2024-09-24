@@ -34,14 +34,14 @@ public class ProductService {
 
 
     public List<ProductPurchaseReponse> purchase(List<ProductPurchaseRequest> requests) {
-       List<Integer>reuqestedProductIds=requests.stream().map(ProductPurchaseRequest :: id).collect(Collectors.toList());
+       List<Integer>reuqestedProductIds=requests.stream().map(ProductPurchaseRequest :: productId).collect(Collectors.toList());
        List<Product> products=productRepository.findAllByIdInOrderById(reuqestedProductIds);
        if(reuqestedProductIds.size()!=products.size()) {
         throw new ProductException("Not all requested products found");
        }
 
        //List<ProductPurchaseRequest>sortedPurchaseRequests=requests.stream().sorted((a,b)->a.id()-b.id()).toList();
-       List<ProductPurchaseRequest>sortedPurchaseRequests=requests.stream().sorted(Comparator.comparing(ProductPurchaseRequest::id)).toList();
+       List<ProductPurchaseRequest>sortedPurchaseRequests=requests.stream().sorted(Comparator.comparing(ProductPurchaseRequest::productId)).toList();
 
        List<ProductPurchaseReponse> responseList=new ArrayList<>();
        for(int i=0;i<sortedPurchaseRequests.size();i++) {

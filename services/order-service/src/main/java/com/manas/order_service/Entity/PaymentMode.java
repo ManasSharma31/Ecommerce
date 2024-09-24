@@ -1,6 +1,6 @@
 package com.manas.order_service.Entity;
 
-public enum PayMethodMode {
+public enum PaymentMode {
 PAYPAL,
     CREDIT_CARD,
     VISA,

@@ -15,6 +15,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -30,7 +31,8 @@ import java.math.BigDecimal;
 @Builder
 @Getter
 @Setter
-@Entity(name="customer_order")
+@Entity
+@Table(name="customer_order")
 @EntityListeners(AuditingEntityListener.class)
 public class Order{
 
@@ -41,7 +43,7 @@ public class Order{
     private BigDecimal totalPrice;
     private String customerId;
     @Enumerated(EnumType.STRING)
-    private PayMethodMode payMethodMode;
+    private PaymentMode payMethodMode;
     @OneToMany(mappedBy = "order",cascade = CascadeType.REMOVE)
     private List<OrderLine>orderLines;
     @CreatedDate

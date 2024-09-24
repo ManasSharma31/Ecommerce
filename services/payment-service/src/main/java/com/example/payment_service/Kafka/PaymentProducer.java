@@ -13,12 +13,13 @@ import lombok.RequiredArgsConstructor;
 public class PaymentProducer {
     
 
-    private final KafkaTemplate<String,PaymemtNotificationRequest> kafkaTemplate;
+    private final KafkaTemplate<String,PaymentNotification> kafkaTemplate;
 
-    public void sendNotification(PaymemtNotificationRequest request){
-        Message<PaymemtNotificationRequest>message=MessageBuilder
-        .withPayload(request)
+    public void sendNotification(PaymentNotification paymentNotification){
+        Message<PaymentNotification>message=MessageBuilder
+        .withPayload(paymentNotification)
         .setHeader(KafkaHeaders.TOPIC, "payment-topic")
+        .setHeader("__TypeId__", "paymentNotification") // Add type header for consumer deserialization
         .build();
         kafkaTemplate.send(message);
     }

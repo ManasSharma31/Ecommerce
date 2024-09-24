@@ -1,17 +1,17 @@
-package com.manas.order_service.Kakfa;
+package com.manas.order_service.Kafka;
 import java.math.*;
 
 import java.util.*;
 
 import com.manas.order_service.Customer.CustomerResponse;
-import com.manas.order_service.Entity.PayMethodMode;
+import com.manas.order_service.Entity.PaymentMode;
 import com.manas.order_service.Product.ProductPurchaseReponse;
 
-public record OrderConfirmation(
+public record OrderNotification(
     String reference,
     BigDecimal totalPrice,
     List<ProductPurchaseReponse>products,
-    PayMethodMode payMethodMode,
+    PaymentMode paymentMode,
     CustomerResponse customer
 ) {
     

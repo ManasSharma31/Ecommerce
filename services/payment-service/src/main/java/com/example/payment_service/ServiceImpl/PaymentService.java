@@ -6,7 +6,7 @@ import com.example.payment_service.Model.PaymentRequest;
 import com.example.payment_service.Repository.PaymentRepository;
 
 import lombok.RequiredArgsConstructor;
-import com.example.payment_service.Kafka.PaymemtNotificationRequest;
+import com.example.payment_service.Kafka.PaymentNotification;
 import com.example.payment_service.Kafka.PaymentProducer;
 import com.example.payment_service.Mapper.PaymentMapper;
 
@@ -22,7 +22,7 @@ public class PaymentService {
     public Integer createPayment(PaymentRequest paymentRequest) {
         
         Integer id=paymentRepository.save(mapper.toPayment(paymentRequest)).getId();
-        PaymentProducer.sendNotification(new PaymemtNotificationRequest(paymentRequest.orderReference(), 
+        PaymentProducer.sendNotification(new PaymentNotification(paymentRequest.orderReference(), 
         paymentRequest.amount()
         ,paymentRequest.paymentMode(), paymentRequest.customer().firstName(), paymentRequest.customer().lastName(), 
         paymentRequest.customer().email()));

@@ -5,8 +5,8 @@ import org.springframework.stereotype.Service;
 
 import com.manas.notification_service.Email.EmailService;
 import com.manas.notification_service.Entity.Notification;
-import com.manas.notification_service.Kafka.Order.OrderConfirmation;
-import com.manas.notification_service.Kafka.Payment.PaymentConfirmation;
+import com.manas.notification_service.Kafka.Order.OrderNotification;
+import com.manas.notification_service.Kafka.Payment.PaymentNotification;
 import com.manas.notification_service.Model.NotificationType;
 import com.manas.notification_service.Repository.NotificationRepository;
 
@@ -23,31 +23,31 @@ public class NotificationConsumer {
     private final NotificationRepository notificationRepository;
     private final EmailService emailService;
 
-    @KafkaListener(topics = "payment-topic")
-    public void consumePaymentConfirmation(PaymentConfirmation paymentConfirmation) throws MessagingException {
-        log.info("Consuming payment confirmation from payment-topic TOPIC:: <{}>", paymentConfirmation);
+    @KafkaListener(topics = "payment-topic",groupId = "paymentGroup")
+    public void consumePaymentConfirmation(PaymentNotification paymentNotification) throws MessagingException {
+        log.info("Consuming payment confirmation from payment-topic TOPIC:: <{}>", paymentNotification);
 
         notificationRepository.save(Notification.builder()
-                .createdAt(LocalDateTime.now()).paymentConfirmation(paymentConfirmation)
+                .createdAt(LocalDateTime.now()).paymentConfirmation(paymentNotification)
                 .type(NotificationType.PAYMENT_CONFIRMATION)
-                .orderReference(paymentConfirmation.orderRefString()).build());
-        String customerName = paymentConfirmation.customerFirstName() + paymentConfirmation.customerLastName();
-        emailService.sendPaymentSuccessfullEmail(paymentConfirmation.customerEmail(), customerName,
-                paymentConfirmation.amount(), paymentConfirmation.orderRefString());
+                .orderReference(paymentNotification.orderRefString()).build());
+        String customerName = paymentNotification.customerFirstName() + paymentNotification.customerLastName();
+        emailService.sendPaymentSuccessfullEmail(paymentNotification.customerEmail(), customerName,
+        paymentNotification.amount(), paymentNotification.orderRefString());
 
     }
 
-    @KafkaListener(topics = "order-topic")
-    public void consumePaymentConfirmation(OrderConfirmation orderConfirmation) throws MessagingException {
-        log.info("Consuming order confirmation from order-topic TOPIC :: <{}>", orderConfirmation);
+    @KafkaListener(topics = "order-topic",groupId="orderGroup")
+    public void consumeOrderConfirmation(OrderNotification orderNotification) throws MessagingException {
+        log.info("Consuming order confirmation from order-topic TOPIC :: <{}>", orderNotification);
 
         notificationRepository.save(Notification.builder()
-                .createdAt(LocalDateTime.now()).orderConfirmation(orderConfirmation)
+                .createdAt(LocalDateTime.now()).orderConfirmation(orderNotification)
                 .type(NotificationType.ORDER_CONFIRMATION)
-                .orderReference(orderConfirmation.reference()).build());
-        String customerName = orderConfirmation.customer().firstName() + orderConfirmation.customer().lastName();
-        emailService.sendOderConfirmationEmail(orderConfirmation.customer().email(), customerName,
-                orderConfirmation.totalPrice(), orderConfirmation.reference(), orderConfirmation.products());
+                .orderReference(orderNotification.reference()).build());
+        String customerName = orderNotification.customer().firstName() + orderNotification.customer().lastName();
+        emailService.sendOderConfirmationEmail(orderNotification.customer().email(), customerName,
+        orderNotification.totalPrice(), orderNotification.reference(), orderNotification.products());
 
     }
 }

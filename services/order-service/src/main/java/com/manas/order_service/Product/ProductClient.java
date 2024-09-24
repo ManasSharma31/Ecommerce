@@ -2,6 +2,7 @@ package com.manas.order_service.Product;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
@@ -14,19 +15,21 @@ import org.springframework.web.client.RestTemplate;
 import com.manas.order_service.Exception.BusinessException;
 
 import jakarta.ws.rs.core.MediaType;
-import lombok.AllArgsConstructor;
+
 import java.util.*;
 
 @Service
-@AllArgsConstructor
 public class ProductClient {
 
     private static final Logger LOGGER=LoggerFactory.getLogger(ProductClient.class);
+    private final RestTemplate restTemplate;
+    ProductClient(RestTemplate restTemplate) {
+        this.restTemplate=restTemplate;
+    }
 
     @Value("${application.config.product-url}")
     String productUrl;
 
-        private final RestTemplate restTemplate;
 
         public List<ProductPurchaseReponse> getProducts(List<ProductPurchaseRequest>reqs){
             LOGGER.info("Calling product service to get products");

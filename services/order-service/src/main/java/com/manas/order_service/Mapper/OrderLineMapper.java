@@ -1,10 +1,14 @@
 package com.manas.order_service.Mapper;
 
+import org.springframework.stereotype.Component;
+
 import com.manas.order_service.Entity.Order;
 import com.manas.order_service.Entity.OrderLine;
 import com.manas.order_service.Model.OrderLineRequest;
 import com.manas.order_service.Model.OrderLineResponse;
 
+
+@Component
 public class OrderLineMapper {
 
     public OrderLine toOrderLine(OrderLineRequest orderLineRequest) {

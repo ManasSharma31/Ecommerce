@@ -4,7 +4,7 @@ import com.example.payment_service.Model.*;
 
 import java.math.BigDecimal;
 
-public record PaymemtNotificationRequest(
+public record PaymentNotification(
     String orderRefString, 
     BigDecimal amount,
     PaymentMode paymentMode,
@@ -13,3 +13,6 @@ public record PaymemtNotificationRequest(
     String customerEmail
 ) {
 }
+
+
+

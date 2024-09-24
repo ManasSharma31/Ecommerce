@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
-import com.manas.notification_service.Kafka.Order.Product;
+import com.manas.notification_service.Kafka.Order.ProductPurchaseReponse;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -61,11 +61,11 @@ public class EmailService {
 
     @Async
     public void sendOderConfirmationEmail(String recipient, String customerName, BigDecimal amount,
-            String orderReference, List<Product> products) throws MessagingException {
+            String orderReference, List<ProductPurchaseReponse> products) throws MessagingException {
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage,
                 MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED, StandardCharsets.UTF_8.name());
-        messageHelper.setFrom("sharmamanas442@gmail.com");
+        messageHelper.setFrom("sharmamanas441@gmail.com");
         final String template = EmailTemplates.ORDER_CONFIRMATION.getTemplate();
         Map<String, Object> variables = new HashMap<>();
         variables.put("customerName", customerName);

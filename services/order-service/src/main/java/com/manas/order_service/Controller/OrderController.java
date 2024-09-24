@@ -32,7 +32,7 @@ public class OrderController {
         
     }
 
-    @GetMapping("{orderId}")
+    @GetMapping("/{orderId}")
     public ResponseEntity<OrderResponse> getOrderById(@PathVariable Integer orderId) {
         return ResponseEntity.ok(orderService.getOrderById(orderId)); // Placeholder for order details
     }
